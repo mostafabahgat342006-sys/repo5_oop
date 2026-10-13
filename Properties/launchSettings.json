@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "c#_oop_ass5": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
