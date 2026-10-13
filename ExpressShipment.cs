@@ -38,6 +38,9 @@ public class ExpressShipment : Shipment  , ITrackable , IInsurable
         ) : base(trackingCode, description, weight, deliveryFee, destination) //  chaining
     {
         ExtraFee = extraFee;
+
+        // عشان  يبدء بحالته الافتراضيه
+        UpdateTrackingStatus("Out for Delivery"); 
     }
 
 
@@ -51,11 +54,17 @@ public class ExpressShipment : Shipment  , ITrackable , IInsurable
         Console.WriteLine("Extra Fee: " + ExtraFee);
     }
 
+
+    /*
+     
     // body of method in interface (ITrackable)
     public string GetTrackingStatus()
     {
         return $"Shipment {TrackingCode} is Out for Delivery.";
     }
+
+    */
+
 
 
     // body of method in interface (IInsurable)
@@ -63,5 +72,6 @@ public class ExpressShipment : Shipment  , ITrackable , IInsurable
     {
         return EstimatedCost * 0.08m;
     }
+
 
 }

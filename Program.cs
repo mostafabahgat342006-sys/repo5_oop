@@ -84,13 +84,14 @@ internal class Program
 
 
 
+        DeliveryUtilities.PrintSystemTitle();
 
-
-
-
-
-
-
+        // استدعاء الدالة باسم الكلاس بدون إنشاء شحنة
+        // هنا الـ static constructor يشتغل تلقائيًا لأول مرة
+        Console.WriteLine
+        (
+            "Total Shipments Created : " + Shipment.GetTotalShipmentsCreated()
+        );
 
 
         DeliveryCenter center = new DeliveryCenter();  // object 
@@ -229,6 +230,12 @@ internal class Program
                 customsFee
             );
 
+        DeliveryUtilities.PrintSeparator();
+
+        Console.WriteLine
+        (
+            "Total Shipments Created : " + Shipment.GetTotalShipmentsCreated()
+        );
 
         //----------------------------------------------------------------------------
         //----------------------------------------------------------------------------
@@ -375,8 +382,115 @@ internal class Program
         }
 
 
+        //---------------------------------------------------------------------------------------
 
 
+
+        // Reference Assignment
+
+        DeliveryUtilities.PrintSeparator();
+        Console.WriteLine("Reference Assignment:");
+
+        Shipment shipment1 = standard;
+        Shipment shipment2 = shipment1;
+
+        Console.WriteLine
+        (
+            // بتسأل: هل المتغيرين بيشاوروا على نفس الأوبجكت؟ <-- (ReferenceEquals)
+            // نفس الشحنة، لم يتم إنشاء شحنة جديدة
+            "Same object? " + object.ReferenceEquals(shipment1, shipment2)
+        ); 
+
+        //  Shallow Copy
+
+        DeliveryUtilities.PrintSeparator();
+        Console.WriteLine("Shallow Copy:");
+
+        shipment1.Destination.City = "Cairo";
+
+        Shipment shallow = shipment1.ShallowCopy();
+
+        Console.WriteLine
+        (
+            "Same shipment? " + object.ReferenceEquals(shipment1, shallow)
+        ); // False
+
+        Console.WriteLine
+        (
+            "Same address? " +
+            object.ReferenceEquals(shipment1.Destination, shallow.Destination)
+        ); // True
+
+        Console.WriteLine("Original before: " + shipment1.Destination.City);
+        Console.WriteLine("Copied before: " + shallow.Destination.City);
+
+        shallow.Destination.City = "Giza";
+
+        Console.WriteLine("Original after: " + shipment1.Destination.City); // Giza
+        Console.WriteLine("Copied after: " + shallow.Destination.City);    // Giza
+        // مش لأن الشحنتين نفس الأوبجكت، لكن لأن عنوانهم نفس الأوبجكت.
+
+
+        // Deep Copy
+
+        DeliveryUtilities.PrintSeparator();
+        Console.WriteLine("Deep Copy:");
+
+        shipment1.Destination.City = "Cairo";
+
+        Shipment deep = shipment1.DeepCopy();
+
+        Console.WriteLine
+        (
+            "Same shipment? " + object.ReferenceEquals(shipment1, deep)
+        ); // False
+
+        Console.WriteLine
+        (
+            "Same address? " +
+            object.ReferenceEquals(shipment1.Destination, deep.Destination)
+        ); // False
+
+        Console.WriteLine("Original before: " + shipment1.Destination.City);
+        Console.WriteLine("Copied before: " + deep.Destination.City);
+
+        deep.Destination.City = "Giza";
+
+        Console.WriteLine("Original after: " + shipment1.Destination.City); // Cairo
+        Console.WriteLine("Copied after: " + deep.Destination.City);       // Giza
+
+
+        // Extension Methods
+
+        DeliveryUtilities.PrintSeparator();
+        Console.WriteLine("Extension Methods:");
+
+        Console.WriteLine(standard.GetSummary());
+        Console.WriteLine(express.GetSummary());
+        Console.WriteLine(international.GetSummary());
+
+        Console.WriteLine("Standard delivered? " + standard.IsDelivered());
+        Console.WriteLine("International delivered? " + international.IsDelivered());
+
+
+        // Partial Method
+        DeliveryUtilities.PrintSeparator();
+        Console.WriteLine("Partial Method:");
+
+        // تطبع: Tracking status changed to: Out For Delivery
+        standard.UpdateTrackingStatus("Out For Delivery");
+        
+
+        Console.WriteLine(standard.GetTrackingStatus());
+
+
+        // Static Counter
+        DeliveryUtilities.PrintSeparator();
+
+        Console.WriteLine
+        (
+            "Total Shipments Created : " + Shipment.GetTotalShipmentsCreated()
+        );
 
 
 

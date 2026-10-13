@@ -65,6 +65,9 @@ public class InternationalShipment : Shipment , ITrackable , IInsurable
     {
         DestinationCountry = destinationCountry;
         CustomsFee = customsFee;
+
+        // عشان  يبدء بحالته الافتراضيه
+        UpdateTrackingStatus("Delivered");
     }
 
 
@@ -80,12 +83,17 @@ public class InternationalShipment : Shipment , ITrackable , IInsurable
         Console.WriteLine("Customs Fee: " + CustomsFee);
     }
 
-
+    /*
+     
     // body of method in interface (ITrackable)
     public string GetTrackingStatus()
     {
         return $"Shipment {TrackingCode} has been Delivered.";
     }
+
+    */
+
+
 
 
     // body of method in interface (IInsurable)

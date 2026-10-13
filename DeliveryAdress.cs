@@ -1,6 +1,6 @@
 ﻿namespace c__oop_ass5;
 
-public struct DeliveryAddress
+public class DeliveryAddress
 {
     public string City;
     public string Street;

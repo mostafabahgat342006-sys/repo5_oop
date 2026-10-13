@@ -1,6 +1,6 @@
 ﻿namespace c__oop_ass5;
 
-public abstract class Shipment
+public abstract partial class Shipment
 {
 
     private string trackingCode;
@@ -8,6 +8,7 @@ public abstract class Shipment
     private decimal weight;
     private decimal deliveryFee;
 
+    public static int TotalShipmentsCreated;
 
     public string TrackingCode
     {
@@ -88,6 +89,15 @@ public abstract class Shipment
     */
 
 
+    //  Static Constructor -> يتنفّذ تلقائيًا (مرة واحدة) عند تهيئة الكلا ويطبع الرسالة المطلوبة.
+    static Shipment()
+    {
+        TotalShipmentsCreated = 0;
+        Console.WriteLine("Shipment System Initialized");
+    }
+
+   
+
     public Shipment(string trackingCode)    // constructor 
     {
         this.trackingCode = trackingCode;
@@ -95,6 +105,8 @@ public abstract class Shipment
         this.weight = 1;
         this.deliveryFee = 50;
         this.Destination = default;
+
+        TotalShipmentsCreated++;
     }
 
     public Shipment(string trackingCode, string description, decimal weight,
@@ -105,6 +117,15 @@ public abstract class Shipment
         Weight = weight;
         DeliveryFee = deliveryFee;
         Destination = destination;
+
+        TotalShipmentsCreated++;
+    }
+
+    // 6  Static Method -> دي بترجع قيمة العداد، ولما نيجي نستخدمها هنناديها باسم الكلاس
+
+    public static int GetTotalShipmentsCreated()
+    {
+        return TotalShipmentsCreated;
     }
 
     public void UpdateDeliveryFee(decimal new_Fee)   // to add new fee 
@@ -126,21 +147,51 @@ public abstract class Shipment
         Weight = weight + packingWeight;
     }
 
-
-
     public abstract void PrintShipment();
 
-    /*
-    public virtual void PrintShipment()
+
+    // ---------------------------------- kinds of cpyies ----------------------------------
+
+    
+
+    public Shipment CopyShipment()
     {
-        Console.WriteLine("Tracking Code: " + TrackingCode);
-        Console.WriteLine("Description: " + Description);
-        Console.WriteLine("Weight: " + Weight);
-        Console.WriteLine("Delivery Fee: " + DeliveryFee);
-        Console.WriteLine("Destination: " + Destination.GetFullAddress());
-        Console.WriteLine("Estimated Cost: " + EstimatedCost);
+        return ShallowCopy();
     }
-    */
+
+    // Shallow Copy
+
+    public Shipment ShallowCopy()
+    {
+        TotalShipmentsCreated++; // بتعمل شحنة جديدة، لكن مش بتشغّل الـكونستركتور MemberwiseClone
+
+        return (Shipment)MemberwiseClone();
+    }
+
+    // Deep Copy
+
+    public Shipment DeepCopy()
+    {
+        Shipment copy = (Shipment)MemberwiseClone();
+
+        copy.Destination = new DeliveryAddress
+        (
+            this.Destination.City,
+            this.Destination.Street,
+            this.Destination.BuildingNumber
+        );
+        TotalShipmentsCreated++;   // بتعمل شحنة جديدة، لكن مش بتشغّل الـكونستركتور MemberwiseClone
+
+        return copy;
+    }
+
+
+    // Implementation of ( OnTrackingStatusChanged )
+    partial void OnTrackingStatusChanged(string newStatus)
+    {
+        Console.WriteLine($"Tracking status changed to: {newStatus}");
+    }
+
 
 
 }

@@ -28,15 +28,24 @@ public class StandardShipment : Shipment , ITrackable , IInsurable
         Console.WriteLine("Estimated Cost: " + EstimatedCost);
     }
 
+
+    /*
+     
     // body of method in interface (ITrackable)
     public string GetTrackingStatus()
     {
         return $"Shipment {TrackingCode} is Ready.";
     }
 
+    */
+
+
+
     // body of method in interface (IInsurable)
     public decimal CalculateInsurance()
     {
         return EstimatedCost * 0.05m;
     }
+
+
 }
